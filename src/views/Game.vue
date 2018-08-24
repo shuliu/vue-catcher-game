@@ -1,15 +1,15 @@
 <template>
-  <CarcherGame />
+  <CatcherGame />
 </template>
 
 <script>
 // @ is an alias to /src
-import CarcherGame from '@/components/CarcherGame.vue';
+import CatcherGame from '@/components/CatcherGame.vue';
 
 export default {
   name: 'game',
   components: {
-    CarcherGame,
+    CatcherGame,
   },
 };
 </script>
