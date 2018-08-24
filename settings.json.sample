@@ -1,0 +1,15 @@
+{
+  "eslint.autoFixOnSave": true,
+  "eslint.validate":[
+    "javascriptreact",
+    {
+      "language": "javascript",
+      "autoFix": true
+    },
+    {
+      "language": "vue",
+      "autoFix": true
+    }
+  ],
+  "eslint.packageManager": "yarn",
+}

@@ -1,4 +1,4 @@
-# carcher-game
+# catcher-game
 
 ## Project setup
 ```
