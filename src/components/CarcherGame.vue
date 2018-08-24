@@ -14,11 +14,15 @@ import TweenMax from 'gsap/TweenMax';
 // import EasePack from 'gsap';
 // import Draggable from "gsap/Draggable";
 
+/** Elements */
+
+
 /** mounted hook function */
 function mountedCallback() {
   /** 設定 carcher 起始位置 */
   this.setCarcherToReady();
-  /** 設定畫面 */
+  /** 設定鍵盤移動事件 */
+  this.addkeyDownEvent();
 }
 
 export default {
@@ -31,17 +35,47 @@ export default {
   components: {},
   methods: {
     /** 設定 carcher 起始位置 */
-    setCarcherToReady: () => {
+    setCarcherToReady() {
       console.log('設定畫面中的 carcher 位置');
       const gameBox = document.querySelector('#gameBox');
       const carcher = document.querySelector('#carcher');
       TweenMax.set(carcher, {
         x: (gameBox.clientWidth / 2) - (carcher.clientWidth / 2),
-        y: (gameBox.clientHeight - carcher.clientHeight) - 40,
+        y: gameBox.clientHeight - carcher.clientHeight - 40,
       });
     },
-    keyMove: (event) => {
-      console.log(event);
+    /** 設定移動事件 */
+    addkeyDownEvent() {
+      document.addEventListener('keydown', this.keyDownEvent);
+    },
+    /** 解除移動事件 */
+    removekeyDownEvent() {
+      document.removeEventListener('keydown', this.keyDownEvent);
+    },
+    /** 鍵盤移動事件 */
+    keyDownEvent(event) {
+      const gameBox = document.querySelector('#gameBox');
+      const carcher = document.querySelector('#carcher');
+
+      const maxRange = gameBox.clientWidth - carcher.clientWidth; // 最大移動寬距
+      const minRange = 0; // 最小移動寬距
+      let moveX = 0;
+      const moveXWidth = 80;
+      const time = 0.3;
+
+      if (event.keyCode && event.which === 39) {
+        // ->
+        moveX = (carcher._gsTransform.x + moveXWidth) > maxRange
+          ? maxRange : carcher._gsTransform.x + moveXWidth;
+      }
+
+      if (event.keyCode && event.which === 37) {
+        // <-
+        moveX = (carcher._gsTransform.x - moveXWidth) < minRange
+          ? minRange : carcher._gsTransform.x - moveXWidth;
+      }
+
+      TweenMax.to(carcher, time, { x: moveX });
     },
   },
   mounted: mountedCallback,
@@ -72,9 +106,9 @@ export default {
 .gift {
   width: 20px;
   height: 20px;
-  background: #E6E;
+  background: #e6e;
   border-radius: 15px;
-  border: 1px solid #D3D;
+  border: 1px solid #d3d;
   position: absolute;
 }
 
@@ -83,12 +117,12 @@ export default {
 }
 
 button {
-  border: 1px solid #DDD;
+  border: 1px solid #ddd;
   border-radius: 15px;
   padding: 2px 12px;
 }
 button:disabled {
-  color: #CCC;
+  color: #ccc;
   background: #666;
 }
 </style>
